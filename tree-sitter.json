@@ -1,0 +1,40 @@
+{
+  "$schema": "https://tree-sitter.github.io/tree-sitter/assets/schemas/config.schema.json",
+  "grammars": [
+    {
+      "name": "sam",
+      "camelcase": "Sam",
+      "title": "Simple Algebraic Machine",
+      "scope": "source.sam",
+      "file-types": [
+        "sam"
+      ],
+      "injection-regex": "^sam$",
+      "class-name": "TreeSitterSam"
+    }
+  ],
+  "metadata": {
+    "version": "0.1.0",
+    "license": "MIT",
+    "description": "A scripting language focused on function and language composition.",
+    "authors": [
+      {
+        "name": "Legolas Tyrael Lada",
+        "email": "legolaslada@gmail.com",
+        "url": "https://44mira.github.io/"
+      }
+    ],
+    "links": {
+      "repository": "https://github.com/44mira/tree-sitter-sam"
+    }
+  },
+  "bindings": {
+    "c": true,
+    "go": true,
+    "node": true,
+    "python": true,
+    "rust": true,
+    "swift": true,
+    "zig": false
+  }
+}
