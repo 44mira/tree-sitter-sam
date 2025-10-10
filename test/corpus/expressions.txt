@@ -1,0 +1,61 @@
+===================
+Number Literal
+===================
+
+42;
+
+-------------------
+
+(source_file
+  (expression_statement
+    (literal
+      (number))))
+
+===================
+String Literal
+===================
+
+"hello world\n";
+
+-------------------
+
+(source_file
+  (expression_statement
+    (literal
+      (string
+        (string_fragment)
+        (escape_sequence)))))
+
+===================
+Unary Operator
+===================
+
+-54;
+
+-------------------
+
+(source_file
+  (expression_statement
+    (unary_expression
+      argument: (literal
+        (number)))))
+
+===================
+Binary Operator
+:cst
+===================
+
+3 + 4 * 5;
+
+-------------------
+
+(source_file
+  (expression_statement
+    (binary_expression
+      (literal
+        (number))
+      (binary_expression
+        (literal
+          (number))
+        (literal
+          (number))))))

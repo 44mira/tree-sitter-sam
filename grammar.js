@@ -47,11 +47,7 @@ module.exports = grammar({
     // can't start with number
     identifier: (_) => token(/[_a-zA-Z]+[_a-zA-Z0-9]*/),
 
-    literal: ($) =>
-      choice(
-        field("value", $._number_literal),
-        field("value", $._string_literal),
-      ),
+    literal: ($) => choice($.number, $.string),
 
     binary_expression: ($) =>
       choice(
@@ -76,7 +72,7 @@ module.exports = grammar({
         ),
       ),
 
-    _string_literal: ($) =>
+    string: ($) =>
       choice(
         seq(
           '"',
@@ -126,7 +122,7 @@ module.exports = grammar({
         ),
       ),
 
-    _number_literal: (_) => {
+    number: (_) => {
       const decimalDigits = /\d(_?\d)*/;
       const signedInteger = seq(optional(choice("-", "+")), decimalDigits);
       const exponentPart = seq(choice("e", "E"), signedInteger);

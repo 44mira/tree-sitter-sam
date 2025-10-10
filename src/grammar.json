@@ -64,20 +64,12 @@
       "type": "CHOICE",
       "members": [
         {
-          "type": "FIELD",
-          "name": "value",
-          "content": {
-            "type": "SYMBOL",
-            "name": "_number_literal"
-          }
+          "type": "SYMBOL",
+          "name": "number"
         },
         {
-          "type": "FIELD",
-          "name": "value",
-          "content": {
-            "type": "SYMBOL",
-            "name": "_string_literal"
-          }
+          "type": "SYMBOL",
+          "name": "string"
         }
       ]
     },
@@ -487,7 +479,7 @@
         ]
       }
     },
-    "_string_literal": {
+    "string": {
       "type": "CHOICE",
       "members": [
         {
@@ -623,7 +615,7 @@
         ]
       }
     },
-    "_number_literal": {
+    "number": {
       "type": "TOKEN",
       "content": {
         "type": "CHOICE",
