@@ -36,6 +36,7 @@ module.exports = grammar({
 
   precedences: ($) => [
     [
+      "call",
       "unary_op",
       "binary_exp",
       "binary_times",
@@ -67,6 +68,7 @@ module.exports = grammar({
         $.binary_expression,
         $.unary_expression,
         $.lambda_expression,
+        $.call_expression,
       ),
 
     declaration: ($) => choice($.variable_declaration),
@@ -130,6 +132,14 @@ module.exports = grammar({
 
     return_statement: ($) =>
       seq("return", optional($.expression), $._semicolon),
+
+    call_expression: ($) =>
+      prec(
+        "call",
+        seq(field("function", $.expression), field("arguments", $.arguments)),
+      ),
+
+    arguments: ($) => seq("(", optional(commaSep1($.expression)), ")"),
 
     string: ($) =>
       choice(

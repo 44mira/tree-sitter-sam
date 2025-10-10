@@ -150,3 +150,32 @@ Block Lambda Expressions
           (binary_expression
             (identifier)
             (identifier)))))))
+
+===================
+Call Expressions
+===================
+
+let avg = (a) => {
+  return sum(a) / len(a);
+};
+
+-------------------
+
+(source_file
+  (variable_declaration
+    (variable_declarator
+      (identifier)
+      (lambda_expression
+        (parameters
+          (identifier))
+        (statement_block
+          (return_statement
+            (binary_expression
+              (call_expression
+                (identifier)
+                (arguments
+                  (identifier)))
+              (call_expression
+                (identifier)
+                (arguments
+                  (identifier))))))))))
