@@ -3,10 +3,30 @@ Number Literal
 ===================
 
 42;
+0xFF;
+0b01;
+0o77;
+.24;
+12.53E5;
 
 -------------------
 
 (source_file
+  (expression_statement
+    (literal
+      (number)))
+  (expression_statement
+    (literal
+      (number)))
+  (expression_statement
+    (literal
+      (number)))
+  (expression_statement
+    (literal
+      (number)))
+  (expression_statement
+    (literal
+      (number)))
   (expression_statement
     (literal
       (number))))
@@ -42,10 +62,10 @@ Unary Operator
 
 ===================
 Binary Operator
-:cst
 ===================
 
 3 + 4 * 5;
+3 + 4 == 2 + 5;
 
 -------------------
 
@@ -58,4 +78,75 @@ Binary Operator
         (literal
           (number))
         (literal
+          (number)))))
+  (expression_statement
+    (binary_expression
+      (binary_expression
+        (literal
+          (number))
+        (literal
+          (number)))
+      (binary_expression
+        (literal
+          (number))
+        (literal
           (number))))))
+
+===================
+Simple Lambda Expressions
+===================
+
+(x) => 5;
+(a, b) => d;
+
+-------------------
+
+(source_file
+  (expression_statement
+    (lambda_expression
+      (parameters
+        (identifier))
+      (literal
+        (number))))
+  (expression_statement
+    (lambda_expression
+      (parameters
+        (identifier)
+        (identifier))
+      (identifier))))
+
+===================
+Block Lambda Expressions
+===================
+
+() => {
+  3 + 4;
+};
+
+(a, b) => {
+  return a + b;
+};
+
+-------------------
+
+(source_file
+  (expression_statement
+    (lambda_expression
+      (parameters)
+      (statement_block
+        (expression_statement
+          (binary_expression
+            (literal
+              (number))
+            (literal
+              (number)))))))
+  (expression_statement
+    (lambda_expression
+      (parameters
+        (identifier)
+        (identifier))
+      (statement_block
+        (return_statement
+          (binary_expression
+            (identifier)
+            (identifier)))))))

@@ -1,0 +1,102 @@
+===================
+Simple Declaration
+===================
+
+let a = 3;
+let b = 5;
+let c = a + b;
+
+-------------------
+
+(source_file
+  (variable_declaration
+    (variable_declarator
+      (identifier)
+      (literal
+        (number))))
+  (variable_declaration
+    (variable_declarator
+      (identifier)
+      (literal
+        (number))))
+  (variable_declaration
+    (variable_declarator
+      (identifier)
+      (binary_expression
+        (identifier)
+        (identifier)))))
+
+===================
+Simple Assignment
+===================
+
+let a = 10;
+a = 5;
+a = 5 * 2;
+
+-------------------
+
+(source_file
+  (variable_declaration
+    (variable_declarator
+      (identifier)
+      (literal
+        (number))))
+  (assignment
+    (identifier)
+    (literal
+      (number)))
+  (assignment
+    (identifier)
+    (binary_expression
+      (literal
+        (number))
+      (literal
+        (number)))))
+
+===================
+Multiple Declaration
+===================
+
+let a = 5, b = 3;
+let c;
+
+-------------------
+
+(source_file
+  (variable_declaration
+    (variable_declarator
+      (identifier)
+      (literal
+        (number)))
+    (variable_declarator
+      (identifier)
+      (literal
+        (number))))
+  (variable_declaration
+    (variable_declarator
+      (identifier))))
+
+===================
+Function Declaration
+===================
+
+let sum2 = (a, b) => {
+  return a + b;
+};
+
+-------------------
+
+(source_file
+  (variable_declaration
+    (variable_declarator
+      (identifier)
+      (lambda_expression
+        (parameters
+          (identifier)
+          (identifier))
+        (statement_block
+          (return_statement
+            (binary_expression
+              (identifier)
+              (identifier))))))))

@@ -1,5 +1,15 @@
 [
   {
+    "type": "declaration",
+    "named": true,
+    "subtypes": [
+      {
+        "type": "variable_declaration",
+        "named": true
+      }
+    ]
+  },
+  {
     "type": "expression",
     "named": true,
     "subtypes": [
@@ -9,6 +19,10 @@
       },
       {
         "type": "identifier",
+        "named": true
+      },
+      {
+        "type": "lambda_expression",
         "named": true
       },
       {
@@ -26,10 +40,48 @@
     "named": true,
     "subtypes": [
       {
+        "type": "assignment",
+        "named": true
+      },
+      {
+        "type": "declaration",
+        "named": true
+      },
+      {
         "type": "expression_statement",
+        "named": true
+      },
+      {
+        "type": "return_statement",
         "named": true
       }
     ]
+  },
+  {
+    "type": "assignment",
+    "named": true,
+    "fields": {
+      "lhs": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "identifier",
+            "named": true
+          }
+        ]
+      },
+      "rhs": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "expression",
+            "named": true
+          }
+        ]
+      }
+    }
   },
   {
     "type": "binary_expression",
@@ -123,6 +175,36 @@
     }
   },
   {
+    "type": "lambda_expression",
+    "named": true,
+    "fields": {
+      "body": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "expression",
+            "named": true
+          },
+          {
+            "type": "statement_block",
+            "named": true
+          }
+        ]
+      }
+    },
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "parameters",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "literal",
     "named": true,
     "fields": {},
@@ -142,9 +224,54 @@
     }
   },
   {
+    "type": "parameters",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "identifier",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "return_statement",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": false,
+      "types": [
+        {
+          "type": "expression",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "source_file",
     "named": true,
     "root": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "statement",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "statement_block",
+    "named": true,
     "fields": {},
     "children": {
       "multiple": true,
@@ -211,6 +338,47 @@
     }
   },
   {
+    "type": "variable_declaration",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "variable_declarator",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "variable_declarator",
+    "named": true,
+    "fields": {
+      "value": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "expression",
+            "named": true
+          }
+        ]
+      }
+    },
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "identifier",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "!",
     "named": false
   },
@@ -227,6 +395,14 @@
     "named": false
   },
   {
+    "type": "(",
+    "named": false
+  },
+  {
+    "type": ")",
+    "named": false
+  },
+  {
     "type": "*",
     "named": false
   },
@@ -236,6 +412,10 @@
   },
   {
     "type": "+",
+    "named": false
+  },
+  {
+    "type": ",",
     "named": false
   },
   {
@@ -255,7 +435,15 @@
     "named": false
   },
   {
+    "type": "=",
+    "named": false
+  },
+  {
     "type": "==",
+    "named": false
+  },
+  {
+    "type": "=>",
     "named": false
   },
   {
@@ -280,11 +468,27 @@
     "named": true
   },
   {
+    "type": "let",
+    "named": false
+  },
+  {
     "type": "number",
     "named": true
   },
   {
+    "type": "return",
+    "named": false
+  },
+  {
     "type": "string_fragment",
     "named": true
+  },
+  {
+    "type": "{",
+    "named": false
+  },
+  {
+    "type": "}",
+    "named": false
   }
 ]

@@ -24,25 +24,70 @@ const OPERATOR_PRECEDENCE = [
 module.exports = grammar({
   name: "sam",
 
-  supertypes: ($) => [$.statement, $.expression],
+  supertypes: ($) => [$.statement, $.expression, $.declaration],
 
   word: ($) => $.identifier,
 
   extras: ($) => [$.comment, /\s/],
 
+  reserved: {
+    global: ($) => ["return"],
+  },
+
   precedences: ($) => [
-    ["unary_op", "binary_exp", "binary_times", "binary_plus", "binary_compare"],
+    [
+      "unary_op",
+      "binary_exp",
+      "binary_times",
+      "binary_plus",
+      "binary_compare",
+      $.lambda_expression,
+    ],
+    ["assign"],
+    ["declaration"],
   ],
 
   rules: {
     source_file: ($) => repeat($.statement),
 
-    statement: ($) => choice($.expression_statement),
+    statement: ($) =>
+      choice(
+        $.expression_statement,
+        $.declaration,
+        $.assignment,
+        $.return_statement,
+      ),
 
     expression_statement: ($) => seq($.expression, $._semicolon),
 
     expression: ($) =>
-      choice($.identifier, $.literal, $.binary_expression, $.unary_expression),
+      choice(
+        $.identifier,
+        $.literal,
+        $.binary_expression,
+        $.unary_expression,
+        $.lambda_expression,
+      ),
+
+    declaration: ($) => choice($.variable_declaration),
+
+    variable_declaration: ($) =>
+      seq("let", commaSep1($.variable_declarator), $._semicolon),
+
+    variable_declarator: ($) => seq($.identifier, optional($._initializer)),
+
+    assignment: ($) =>
+      prec.right(
+        "assign",
+        seq(
+          field("lhs", $.identifier),
+          "=",
+          field("rhs", $.expression),
+          $._semicolon,
+        ),
+      ),
+
+    _initializer: ($) => seq("=", field("value", $.expression)),
 
     // can't start with number
     identifier: (_) => token(/[_a-zA-Z]+[_a-zA-Z0-9]*/),
@@ -71,6 +116,20 @@ module.exports = grammar({
           field("argument", $.expression),
         ),
       ),
+
+    lambda_expression: ($) =>
+      seq(
+        $.parameters,
+        "=>",
+        field("body", choice($.expression, $.statement_block)),
+      ),
+
+    parameters: ($) => seq("(", optional(commaSep1($.identifier)), ")"),
+
+    statement_block: ($) => seq("{", repeat($.statement), "}"),
+
+    return_statement: ($) =>
+      seq("return", optional($.expression), $._semicolon),
 
     string: ($) =>
       choice(
@@ -161,3 +220,14 @@ module.exports = grammar({
     _semicolon: (_) => /;/,
   },
 });
+
+/**
+ * Creates a rule to match one or more of the rules separated by a comma
+ *
+ * @param {Rule} rule
+ *
+ * @returns {SeqRule}
+ */
+function commaSep1(rule) {
+  return seq(rule, repeat(seq(",", rule)));
+}
