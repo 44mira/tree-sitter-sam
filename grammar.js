@@ -70,6 +70,7 @@ module.exports = grammar({
         $.unary_expression,
         $.lambda_expression,
         $.call_expression,
+        $.array_access_expression,
         $.array_expression,
         $.if_expression,
         $.for_expression,
@@ -82,7 +83,7 @@ module.exports = grammar({
 
     variable_declarator: ($) =>
       seq(
-        field("variable", choice($.identifier, $.array_expression)),
+        field("variable", choice($.identifier, $.array_access_expression)),
         optional($._initializer),
       ),
 
@@ -234,8 +235,18 @@ module.exports = grammar({
       );
     },
 
-    array_expression: ($) =>
-      seq(field("array", $.identifier), "[", field("index", $.expression), "]"),
+    array_access_expression: ($) =>
+      seq(
+        choice(
+          field("array", $.identifier),
+          field("array_expression", $.array_expression),
+        ),
+        "[",
+        field("index", $.expression),
+        "]",
+      ),
+
+    array_expression: ($) => seq("[", commaSep($.expression), "]"),
 
     if_expression: ($) =>
       seq(

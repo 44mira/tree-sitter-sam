@@ -191,15 +191,17 @@ nums[xs[1] + 5];
 
 (source_file
   (expression_statement
-    (array_expression 
-      (identifier) 
-      (literal (number))))
+    (array_access_expression
+      (identifier)
+      (literal
+        (number))))
   (expression_statement
-    (array_expression
+    (array_access_expression
       (identifier)
       (binary_expression
-        (array_expression
+        (array_access_expression
           (identifier)
-          (literal (number)))
-        (literal (number))))))
-
+          (literal
+            (number)))
+        (literal
+          (number))))))

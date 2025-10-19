@@ -102,7 +102,7 @@ let sum2 = (a, b) => {
               (identifier))))))))
 
 ===================
-Array Assignment
+Array access assignment
 ===================
 
 let first = nums[0];
@@ -114,15 +114,51 @@ let nums[0] = first + 5;
   (variable_declaration
     (variable_declarator
       (identifier)
-      (array_expression
+      (array_access_expression
         (identifier)
         (literal
           (number)))))
   (variable_declaration
     (variable_declarator
-      (array_expression
+      (array_access_expression
         (identifier)
-        (literal (number)))
+        (literal
+          (number)))
       (binary_expression
         (identifier)
-        (literal (number))))))
+        (literal
+          (number))))))
+
+===================
+Array expression assignment
+===================
+
+let nums = [1,2,3];
+let a = ["a", "b"][0];
+
+-------------------
+
+(source_file
+  (variable_declaration
+    (variable_declarator
+      (identifier)
+      (array_expression
+        (literal
+          (number))
+        (literal
+          (number))
+        (literal
+          (number)))))
+  (variable_declaration
+    (variable_declarator
+      (identifier)
+      (array_access_expression
+        (array_expression
+          (literal
+            (string
+              (string_fragment)))
+          (literal
+            (string
+              (string_fragment))))
+        (literal
+          (number))))))
