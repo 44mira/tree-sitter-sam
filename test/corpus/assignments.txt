@@ -100,3 +100,29 @@ let sum2 = (a, b) => {
             (binary_expression
               (identifier)
               (identifier))))))))
+
+===================
+Array Assignment
+===================
+
+let first = nums[0];
+let nums[0] = first + 5;
+
+-------------------
+
+(source_file
+  (variable_declaration
+    (variable_declarator
+      (identifier)
+      (array_expression
+        (identifier)
+        (literal
+          (number)))))
+  (variable_declaration
+    (variable_declarator
+      (array_expression
+        (identifier)
+        (literal (number)))
+      (binary_expression
+        (identifier)
+        (literal (number))))))

@@ -19,6 +19,7 @@ const OPERATOR_PRECEDENCE = [
   [">", "binary_compare"],
   [">=", "binary_compare"],
   ["==", "binary_compare"],
+  ["!=", "binary_compare"],
 ];
 
 module.exports = grammar({
@@ -31,7 +32,7 @@ module.exports = grammar({
   extras: ($) => [$.comment, /\s/],
 
   reserved: {
-    global: ($) => ["return"],
+    global: ($) => ["return", "let", "if", "else", "for", "in"],
   },
 
   precedences: ($) => [
@@ -69,6 +70,9 @@ module.exports = grammar({
         $.unary_expression,
         $.lambda_expression,
         $.call_expression,
+        $.array_expression,
+        $.if_expression,
+        $.for_expression,
       ),
 
     declaration: ($) => choice($.variable_declaration),
@@ -76,7 +80,11 @@ module.exports = grammar({
     variable_declaration: ($) =>
       seq("let", commaSep1($.variable_declarator), $._semicolon),
 
-    variable_declarator: ($) => seq($.identifier, optional($._initializer)),
+    variable_declarator: ($) =>
+      seq(
+        field("variable", choice($.identifier, $.array_expression)),
+        optional($._initializer),
+      ),
 
     assignment: ($) =>
       prec.right(
@@ -121,12 +129,12 @@ module.exports = grammar({
 
     lambda_expression: ($) =>
       seq(
-        $.parameters,
+        field("parameters", $.parameters),
         "=>",
         field("body", choice($.expression, $.statement_block)),
       ),
 
-    parameters: ($) => seq("(", optional(commaSep1($.identifier)), ")"),
+    parameters: ($) => seq("(", commaSep($.identifier), ")"),
 
     statement_block: ($) => seq("{", repeat($.statement), "}"),
 
@@ -139,7 +147,7 @@ module.exports = grammar({
         seq(field("function", $.expression), field("arguments", $.arguments)),
       ),
 
-    arguments: ($) => seq("(", optional(commaSep1($.expression)), ")"),
+    arguments: ($) => seq("(", commaSep($.expression), ")"),
 
     string: ($) =>
       choice(
@@ -226,6 +234,35 @@ module.exports = grammar({
       );
     },
 
+    array_expression: ($) =>
+      seq(field("array", $.identifier), "[", field("index", $.expression), "]"),
+
+    if_expression: ($) =>
+      seq(
+        "if",
+        "(",
+        field("condition", $.expression),
+        ")",
+        field("consequence", $.statement_block),
+        optional(
+          seq(
+            "else",
+            field("else", choice($.statement_block, $.if_expression)),
+          ),
+        ),
+      ),
+
+    for_expression: ($) =>
+      seq(
+        "for",
+        seq(
+          field("variable", $.identifier),
+          "in",
+          field("iterable", $.expression),
+        ),
+        field("body", $.statement_block),
+      ),
+
     comment: (_) => token(seq("//", /[^\r\n]*/)),
     _semicolon: (_) => /;/,
   },
@@ -240,4 +277,15 @@ module.exports = grammar({
  */
 function commaSep1(rule) {
   return seq(rule, repeat(seq(",", rule)));
+}
+
+/**
+ * Creates a rule to match zero or more of the rules separated by a comma
+ *
+ * @param {Rule} rule
+ *
+ * @returns {Rule}
+ */
+function commaSep(rule) {
+  return optional(commaSep1(rule));
 }

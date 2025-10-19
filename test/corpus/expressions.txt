@@ -179,3 +179,27 @@ let avg = (a) => {
                 (identifier)
                 (arguments
                   (identifier))))))))))
+
+===================
+Array Expressions
+===================
+
+xs[0];
+nums[xs[1] + 5];
+
+-------------------
+
+(source_file
+  (expression_statement
+    (array_expression 
+      (identifier) 
+      (literal (number))))
+  (expression_statement
+    (array_expression
+      (identifier)
+      (binary_expression
+        (array_expression
+          (identifier)
+          (literal (number)))
+        (literal (number))))))
+
