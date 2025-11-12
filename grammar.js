@@ -47,7 +47,7 @@ module.exports = grammar({
       $.lambda_expression,
     ],
     ["assign"],
-    ["declaration"],
+    ["grouping", "declaration"],
   ],
 
   rules: {
@@ -75,19 +75,24 @@ module.exports = grammar({
     expression_statement: ($) => seq($.expression, $._semicolon),
 
     expression: ($) =>
-      choice(
-        $.identifier,
-        $.nested_identifier,
-        $.literal,
-        $.binary_expression,
-        $.unary_expression,
-        $.lambda_expression,
-        $.call_expression,
-        $.array_access_expression,
-        $.array_expression,
-        $.if_expression,
-        $.for_expression,
+      prec.right(
+        choice(
+          $.identifier,
+          $.nested_identifier,
+          $.literal,
+          $.binary_expression,
+          $.unary_expression,
+          $.lambda_expression,
+          $.call_expression,
+          $.array_access_expression,
+          $.array_expression,
+          $.if_expression,
+          $.for_expression,
+          $.grouped_expression,
+        ),
       ),
+
+    grouped_expression: ($) => seq("(", $.expression, ")"),
 
     declaration: ($) => choice($.variable_declaration),
 
