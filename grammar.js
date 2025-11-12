@@ -37,6 +37,7 @@ module.exports = grammar({
 
   precedences: ($) => [
     [
+      "attr_access",
       "call",
       "unary_op",
       "binary_exp",
@@ -76,6 +77,7 @@ module.exports = grammar({
     expression: ($) =>
       choice(
         $.identifier,
+        $.nested_identifier,
         $.literal,
         $.binary_expression,
         $.unary_expression,
@@ -283,6 +285,12 @@ module.exports = grammar({
           field("iterable", $.expression),
         ),
         field("body", $.statement_block),
+      ),
+
+    nested_identifier: ($) =>
+      prec(
+        "attr_access",
+        seq(field("parent", $.expression), ".", field("name", $.identifier)),
       ),
 
     comment: (_) => token(seq("//", /[^\r\n]*/)),

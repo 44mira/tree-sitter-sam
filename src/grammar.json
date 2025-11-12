@@ -110,6 +110,10 @@
         },
         {
           "type": "SYMBOL",
+          "name": "nested_identifier"
+        },
+        {
+          "type": "SYMBOL",
           "name": "literal"
         },
         {
@@ -1665,6 +1669,35 @@
         }
       ]
     },
+    "nested_identifier": {
+      "type": "PREC",
+      "value": "attr_access",
+      "content": {
+        "type": "SEQ",
+        "members": [
+          {
+            "type": "FIELD",
+            "name": "parent",
+            "content": {
+              "type": "SYMBOL",
+              "name": "expression"
+            }
+          },
+          {
+            "type": "STRING",
+            "value": "."
+          },
+          {
+            "type": "FIELD",
+            "name": "name",
+            "content": {
+              "type": "SYMBOL",
+              "name": "identifier"
+            }
+          }
+        ]
+      }
+    },
     "comment": {
       "type": "TOKEN",
       "content": {
@@ -1699,6 +1732,10 @@
   "conflicts": [],
   "precedences": [
     [
+      {
+        "type": "STRING",
+        "value": "attr_access"
+      },
       {
         "type": "STRING",
         "value": "call"

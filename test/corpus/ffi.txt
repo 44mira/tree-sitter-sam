@@ -27,13 +27,40 @@ let a = world();
         (arguments)))))
 
 ===================
-Interfaces has to be at start
-:error
+Attribute access
 ===================
 
-let a = world();
-
-interface "./hello" load world;
-interface "./hi" load greeting;
+foo.bar;
+foo.baz();
+foo.baz().bar;
+let b = foo.bar.qux;
 
 -------------------
+
+(source_file
+  (expression_statement
+    (nested_identifier
+      (identifier)
+      (identifier)))
+  (expression_statement
+    (call_expression
+      (nested_identifier
+        (identifier)
+        (identifier))
+      (arguments)))
+  (expression_statement
+    (nested_identifier
+      (call_expression
+        (nested_identifier
+          (identifier)
+          (identifier))
+        (arguments))
+      (identifier)))
+  (variable_declaration
+    (variable_declarator
+      (identifier)
+      (nested_identifier
+        (nested_identifier
+          (identifier)
+          (identifier))
+        (identifier)))))
