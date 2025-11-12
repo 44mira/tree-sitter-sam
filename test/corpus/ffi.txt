@@ -1,0 +1,39 @@
+===================
+Interface load
+===================
+
+interface "./hello" load world;
+interface "./hi" load greeting;
+
+let a = world();
+
+-------------------
+
+(source_file
+  (interfaces
+    (interface
+      (string
+        (string_fragment))
+      (identifier))
+    (interface
+      (string
+        (string_fragment))
+      (identifier)))
+  (variable_declaration
+    (variable_declarator
+      (identifier)
+      (call_expression
+        (identifier)
+        (arguments)))))
+
+===================
+Interfaces has to be at start
+:error
+===================
+
+let a = world();
+
+interface "./hello" load world;
+interface "./hi" load greeting;
+
+-------------------

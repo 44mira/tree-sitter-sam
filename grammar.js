@@ -50,7 +50,18 @@ module.exports = grammar({
   ],
 
   rules: {
-    source_file: ($) => repeat($.statement),
+    source_file: ($) => seq(optional($.interfaces), repeat($.statement)),
+
+    interfaces: ($) => repeat1($.interface),
+
+    interface: ($) =>
+      seq(
+        "interface",
+        field("path", $.string),
+        "load",
+        field("module", $.identifier),
+        $._semicolon,
+      ),
 
     statement: ($) =>
       choice(
