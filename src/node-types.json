@@ -26,6 +26,10 @@
         "named": true
       },
       {
+        "type": "bluebird",
+        "named": true
+      },
+      {
         "type": "call_expression",
         "named": true
       },
@@ -55,6 +59,18 @@
       },
       {
         "type": "nested_identifier",
+        "named": true
+      },
+      {
+        "type": "partial_expression",
+        "named": true
+      },
+      {
+        "type": "starling",
+        "named": true
+      },
+      {
+        "type": "thrush",
         "named": true
       },
       {
@@ -255,6 +271,21 @@
           }
         ]
       }
+    }
+  },
+  {
+    "type": "bluebird",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "expression",
+          "named": true
+        }
+      ]
     }
   },
   {
@@ -521,6 +552,51 @@
     }
   },
   {
+    "type": "partial_expression",
+    "named": true,
+    "fields": {
+      "arguments": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "partial_expression_args",
+            "named": true
+          }
+        ]
+      },
+      "function": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "expression",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "partial_expression_args",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "expression",
+          "named": true
+        },
+        {
+          "type": "placeholder",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "return_statement",
     "named": true,
     "fields": {},
@@ -556,6 +632,21 @@
     }
   },
   {
+    "type": "starling",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "expression",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "statement_block",
     "named": true,
     "fields": {},
@@ -584,6 +675,21 @@
         },
         {
           "type": "string_fragment",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "thrush",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "expression",
           "named": true
         }
       ]
@@ -669,6 +775,14 @@
     }
   },
   {
+    "type": " . ",
+    "named": false
+  },
+  {
+    "type": " || ",
+    "named": false
+  },
+  {
     "type": "!",
     "named": false
   },
@@ -726,6 +840,10 @@
   },
   {
     "type": "<",
+    "named": false
+  },
+  {
+    "type": "<*>",
     "named": false
   },
   {
@@ -803,6 +921,10 @@
   },
   {
     "type": "number",
+    "named": true
+  },
+  {
+    "type": "placeholder",
     "named": true
   },
   {

@@ -37,6 +37,7 @@ module.exports = grammar({
 
   precedences: ($) => [
     [
+      "grouping",
       "attr_access",
       "call",
       "unary_op",
@@ -45,9 +46,11 @@ module.exports = grammar({
       "binary_plus",
       "binary_compare",
       $.lambda_expression,
+      "combinator_1",
+      $.thrush,
     ],
     ["assign"],
-    ["grouping", "declaration"],
+    ["declaration"],
   ],
 
   rules: {
@@ -83,12 +86,16 @@ module.exports = grammar({
           $.binary_expression,
           $.unary_expression,
           $.lambda_expression,
+          $.partial_expression,
           $.call_expression,
           $.array_access_expression,
           $.array_expression,
           $.if_expression,
           $.for_expression,
           $.grouped_expression,
+          $.bluebird,
+          $.starling,
+          $.thrush,
         ),
       ),
 
@@ -152,6 +159,23 @@ module.exports = grammar({
         "=>",
         field("body", choice($.expression, $.statement_block)),
       ),
+
+    partial_expression: ($) =>
+      seq(
+        field("function", $.expression),
+        field("arguments", $.partial_expression_args),
+      ),
+
+    partial_expression_args: ($) =>
+      seq(
+        "(",
+        $._partial_expression_args,
+        optional(seq(",", commaSep1(choice($.placeholder, $.expression)))),
+        ")",
+      ),
+
+    _partial_expression_args: ($) =>
+      seq(optional(seq(commaSep($.expression), ",")), $.placeholder),
 
     parameters: ($) => seq("(", commaSep($.identifier), ")"),
 
@@ -298,7 +322,17 @@ module.exports = grammar({
         seq(field("parent", $.expression), ".", field("name", $.identifier)),
       ),
 
+    bluebird: ($) =>
+      prec.left("combinator_1", seq($.expression, " . ", $.expression)),
+
+    thrush: ($) => prec.right(seq($.expression, " || ", $.expression)),
+
+    starling: ($) =>
+      prec.left("combinator_1", seq($.expression, "<*>", $.expression)),
+
+    placeholder: (_) => /@/,
     comment: (_) => token(seq("//", /[^\r\n]*/)),
+
     _semicolon: (_) => /;/,
   },
 });

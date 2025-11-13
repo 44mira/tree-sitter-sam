@@ -1,0 +1,138 @@
+===================
+Bluebird composition
+===================
+
+f . g;
+f . g . h;
+
+-------------------
+
+(source_file
+  (expression_statement
+    (bluebird
+      (identifier)
+      (identifier)))
+  (expression_statement
+    (bluebird
+      (bluebird
+        (identifier)
+        (identifier))
+      (identifier))))
+
+===================
+Bluebird application
+===================
+
+(f . g)(x);
+(negate . min(@, 5))(3);
+
+-------------------
+
+(source_file
+  (expression_statement
+    (call_expression
+      (grouped_expression
+        (bluebird
+          (identifier)
+          (identifier)))
+      (arguments
+        (identifier))))
+  (expression_statement
+    (call_expression
+      (grouped_expression
+        (bluebird
+          (identifier)
+          (partial_expression
+            (identifier)
+            (partial_expression_args
+              (placeholder)
+              (literal
+                (number))))))
+      (arguments
+        (literal
+          (number))))))
+
+===================
+Thrush
+===================
+
+f || x;
+f . g || x;
+
+-------------------
+
+(source_file
+  (expression_statement
+    (thrush
+      (identifier)
+      (identifier)))
+  (expression_statement
+    (thrush
+      (bluebird
+        (identifier)
+        (identifier))
+      (identifier))))
+
+===================
+Starling
+===================
+
+f <*> g;
+f <*> g <*> h;
+f <*> g || x;
+(f <*> g)(y);
+
+-------------------
+
+(source_file
+  (expression_statement
+    (starling
+      (identifier)
+      (identifier)))
+  (expression_statement
+    (starling
+      (starling
+        (identifier)
+        (identifier))
+      (identifier)))
+  (expression_statement
+    (thrush
+      (starling
+        (identifier)
+        (identifier))
+      (identifier)))
+  (expression_statement
+    (call_expression
+      (grouped_expression
+        (starling
+          (identifier)
+          (identifier)))
+      (arguments
+        (identifier)))))
+
+===================
+Starling + Bluebird + Thrush
+===================
+
+f . g <*> h || x;
+f <*> g . h || x;
+
+-------------------
+
+(source_file
+  (expression_statement
+    (thrush
+      (starling
+        (bluebird
+          (identifier)
+          (identifier))
+        (identifier))
+      (identifier)))
+  (expression_statement
+    (thrush
+      (bluebird
+        (starling
+          (identifier)
+          (identifier))
+        (identifier))
+      (identifier))))
