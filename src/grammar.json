@@ -1,7 +1,6 @@
 {
   "$schema": "https://tree-sitter.github.io/tree-sitter/assets/schemas/grammar.schema.json",
   "name": "sam",
-  "word": "identifier",
   "rules": {
     "source_file": {
       "type": "SEQ",
@@ -1991,7 +1990,7 @@
     },
     {
       "type": "PATTERN",
-      "value": "\\s"
+      "value": "\\s+"
     }
   ],
   "conflicts": [],

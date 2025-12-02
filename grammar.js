@@ -26,10 +26,7 @@ module.exports = grammar({
   name: "sam",
 
   supertypes: ($) => [$.statement, $.expression, $.declaration],
-
-  word: ($) => $.identifier,
-
-  extras: ($) => [$.comment, /\s/],
+  extras: ($) => [$.comment, /\s+/],
 
   reserved: {
     global: ($) => ["return", "let", "if", "else", "for", "in"],
