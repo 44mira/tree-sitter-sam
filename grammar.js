@@ -179,7 +179,7 @@ module.exports = grammar({
     statement_block: ($) => seq("{", repeat($.statement), "}"),
 
     return_statement: ($) =>
-      seq("return", optional($.expression), $._semicolon),
+      seq("return", optional(field("value", $.expression)), $._semicolon),
 
     call_expression: ($) =>
       prec(
